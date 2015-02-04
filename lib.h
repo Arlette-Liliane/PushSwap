@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pile.h                                             :+:      :+:    :+:   */
+/*   lib.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aemebiku <aemebiku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,21 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PILE_H
-# define PILE_H
-#include "pile_struct.h"
-#include "lib.h"
+#ifndef LIB_H
+# define LIB_H
 
-void	Init(dblist *l);
-void	PushBack(dblist *l, int val);
-void	PushFront(dblist *l, int val);
-int 	PopBack(dblist *l);
-int		PopFront(dblist *l);
-void	Swap(dblist *l);
-int		Count_pile(dblist l);
-void	rotate_list(dblist *l);
-void	reverse_list(dblist *l);
-void	View(dblist l);
+void	ft_putchar(char c);
+void	ft_putstr(char *s);
+void	ft_putchar_error(char c);
+void	ft_error(char *s);
+void	ft_putnbr_base_fd(long int n, int base, int fd);
+void	ft_putnbr_base(long int n, int base);
+void	ft_putnbr(long int n);
+int		ft_strcmp(const char *s1, const char *s2);
+int		ft_atoi(const char *str);
 
 
 #endif

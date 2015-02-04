@@ -10,11 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PILE_H
-# define PILE_H
+#ifndef PILE_STRUCT_H
+# define PILE_STRUCT_H
 
 typedef struct		pile
 {
-	int				donnee;
-	struct pile		*previous;
+	int				val;
+	struct pile		*next;
+    struct pile 	*prev;
 }					Pile;
+
+typedef struct		list
+{
+	Pile 			*first;
+	Pile 			*last;
+}					dblist;
+
+#endif
