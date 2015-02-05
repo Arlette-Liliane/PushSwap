@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pile.c                                             :+:      :+:    :+:   */
+/*   lib.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aemebiku <aemebiku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/02/03 14:13:37 by aemebiku          #+#    #+#             */
-/*   Updated: 2015/02/03 14:13:38 by aemebiku         ###   ########.fr       */
+/*   Created: 2015/02/05 13:07:25 by aemebiku          #+#    #+#             */
+/*   Updated: 2015/02/05 15:22:47 by aemebiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,48 @@ void	ft_putstr(char *s)
 	}
 	ft_putchar('\n');
 }
+
+int	ft_isdigit(char **av, int ac)
+{
+	int		i;
+	char	*s;
+	int		isint;
+	
+	s = NULL;
+	i = 1;
+	while (i < ac)
+	{
+		isint = -1;
+		s = av[i];
+		if (*s == '-')
+		{
+			s++;
+			while (*s)
+			{
+				if ('0' <= *s && *s <= '9')
+					isint = 1;
+				else
+					return (0);
+				s++;
+			}
+			if (isint == -1)
+				return 0;
+		}
+		else {
+			while (*s)
+            {
+                if ('0' <= *s && *s <= '9')
+					isint = 1;
+                else
+					return (0);
+                s++;
+			}
+		}
+		i++;
+	}
+	return isint;
+}
+
 
 void	ft_putchar_error(char c)
 {
@@ -119,3 +161,24 @@ int	ft_atoi(const char *str)
 }
 
 //verifier que c'est un int et qu'il ya pas de doublon
+
+int	ft_doublons(int ac, char **av)
+{
+	int	i;
+	int	j;
+
+	j = 1;
+	i = 1;
+	while(i < ac)
+	{
+		j = i + 1;
+		while (j < ac)
+		{
+			if (ft_strcmp(av[i], av[j]) == 0)
+				return (1);
+			j++;
+		}
+			i++;
+	}
+	return 0;
+}

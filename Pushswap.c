@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Pushswap.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aemebiku <aemebiku@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/02/05 13:16:24 by aemebiku          #+#    #+#             */
+/*   Updated: 2015/02/05 15:23:37 by aemebiku         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -5,19 +18,27 @@
 
 int main(int ac, char ** av)
 {
-        dblist MaListe;
+        dblist MaListea;
+        dblist MaListeb;
         int it;
  
         it = 1;
+        Init(&MaListea);
+        Init(&MaListeb);
         
-        if (ac > 2)
+        if (ac > 2 && ft_isdigit(av, ac) == 1 && ft_doublons(ac, av) == 0)
         {
 			while (it < ac)
 			{
-				PushBack(&MaListe,ft_atoi(av[it]));
+
+				PushBack(&MaListea,ft_atoi(av[it]));
 				it++;
 			}
-			View(MaListe);
+			ft_PushSwap(&MaListea, &MaListeb);
+			Clear(&MaListea);
+			Clear(&MaListeb);
+
+			/*View(MaListe);
 			ft_putstr("--------------");
 			rotate_list(&MaListe);
 			View(MaListe);
@@ -28,9 +49,10 @@ int main(int ac, char ** av)
 			 Swap(&MaListe);
 			View(MaListe);
 			 ft_putstr("--------------");
+         printf("min : %d\n", ft_min(&MaListe));*/
 		}
 		else
-			ft_error("ERROR: Please enter the numbers");
-			
+		  ft_error("Error");
+		printf(" doublons : %d\n", ft_isdigit(av, ac));			
         return 0;    
  }

@@ -6,7 +6,7 @@
 /*   By: aemebiku <aemebiku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/03 14:20:05 by aemebiku          #+#    #+#             */
-/*   Updated: 2015/02/03 15:50:39 by aemebiku         ###   ########.fr       */
+/*   Updated: 2015/02/05 13:51:27 by aemebiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void	ft_putnbr_base(long int n, int base);
 void	ft_putnbr(long int n);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_atoi(const char *str);
-
-
+int		ft_isdigit(char **av, int ac);
+int		ft_doublons(int ac,char **av);
 #endif
