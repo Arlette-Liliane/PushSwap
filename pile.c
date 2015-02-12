@@ -6,7 +6,7 @@
 /*   By: aemebiku <aemebiku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/03 14:13:37 by aemebiku          #+#    #+#             */
-/*   Updated: 2015/02/05 15:50:32 by aemebiku         ###   ########.fr       */
+/*   Updated: 2015/02/09 15:04:12 by aemebiku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,31 @@ void Init(dblist *l)
 void PushBack(dblist *l, int val)
 {
   Pile *nouv = malloc(sizeof(Pile));
-   if(!nouv) 
+   if(!nouv)
 	exit(EXIT_FAILURE);
    nouv->val = val;
    nouv->prev = l->last;
    nouv->next = NULL;
-   if(l->last) 
+   if(l->last)
 	l->last->next = nouv;
-   else 
+   else
 	l->first = nouv;
-   l->last = nouv;        
+   l->last = nouv;
 }
 
 void PushFront(dblist *l, int val)
 {
    Pile *nouv ;
-   
+
    nouv = malloc(sizeof(Pile));
-   if(!nouv) 
+   if(!nouv)
 	exit(EXIT_FAILURE);
    nouv->val = val;
    nouv->next = l->first;
-   nouv->prev = NULL;      
-   if(l->first) 
+   nouv->prev = NULL;
+   if(l->first)
 	l->first->prev = nouv;
-   else 
+   else
 	l->last = nouv;
    l->first = nouv;
 }
@@ -55,15 +55,15 @@ int PopBack(dblist *l)
 {
    int val;
    Pile *tmp;
-   
+
    tmp = l->last;
-   if(!tmp) 
+   if(!tmp)
 	return -1;
    val = tmp->val;
    l->last = tmp->prev;
-   if(l->last) 
+   if(l->last)
 	l->last->next = NULL;
-   else 
+   else
 	l->first = NULL;
    free(tmp);
    return val;
@@ -74,40 +74,92 @@ int PopFront(dblist *l)
 {
    int val;
    Pile *tmp;
-   
+
    tmp  = l->first;
-   if(!tmp) 
+   if(!tmp)
 	return -1;
    val = tmp->val;
    l->first = tmp->next;
    if(l->first)
 	l->first->prev = NULL;
-   else 
+   else
 	l->last = NULL;
    free(tmp);
    return val;
 }
 
+dblist  *Pop(dblist *l, int values)
+{
+   Pile *tmp;
+
+   tmp  = l->first;
+   if(!tmp)
+	return NULL;
+	while (tmp)
+	{
+		View(*l);
+		if (values == tmp->val)
+	   {
+		   
+		   	if(tmp->next == NULL)
+		   	{
+		   		l->last = tmp->prev;
+		   		l->last->prev = NULL;
+		   	}
+		   	else if (tmp->prev == NULL)
+	   		{
+	   			l->first = tmp->next;
+	   			l->first->prev =  NULL;
+	   		}
+	   		else
+	   		{
+	   			tmp->next->prev = tmp->prev;
+	   			tmp->prev->next = tmp->next;
+	   		}
+				
+			 free(tmp);
+		
+			 
+	   }
+	   else{
+	   	   tmp = tmp->next;
+	   }
+	
+	   
+	}	
+
+	return l; 
+}
+
+
 void Swap(dblist *l)
 {
 	Pile *tmp;
 	Pile *tmp2;
-	if (l->first && l->first->next)
+
+  ft_putstr("sa");
+	if (l->first)
 	{
-		tmp = l->first;
-		tmp2 = l->first->next;
-		tmp->next = tmp2->next;
-		tmp2->next = tmp;
-		l->first = tmp2;
+
+		tmp = l->first->next;
+		l->first->next = NULL;
+		while(tmp->next)
+		{
+			tmp2 = tmp->next;
+			tmp->next = l->first;
+			l->first = tmp;
+			tmp = tmp2;
+		}
+		
 	}
-	
+return;
 }
 
 int Count_pile(dblist l)
 {
 	int	count;
 	Pile *ppile;
-	
+
 	count = 0;
 	ppile = l.first;
 	while(ppile)
@@ -123,23 +175,22 @@ void rotate_list(dblist *l)
 {
 	int	val;
 
-	ft_putstr("ra");	
 	val = PopBack(l);
 	PushFront(l, val);
-	
-	
-	
+
+
+
 }
 
 //vers le bas, le dernier élément devient le premier
 void reverse_list(dblist *l)
 {
 	int	val;
-	
+
 	ft_putstr("rra");
 	val = PopFront(l);
 	PushBack(l, val);
-	
+
 }
 
 
@@ -149,6 +200,18 @@ void View(dblist l)
    Pile *pelem = l.first;
 
    while(pelem)
+   {
+     ft_putnbr(pelem->val);
+     ft_putchar('\n');
+     pelem = pelem->next;
+   }
+   ft_putstr("--------------");
+}
+
+void ViewPile(Pile *pelem)
+{
+
+   while(pelem != NULL)
    {
      ft_putnbr(pelem->val);
      ft_putchar('\n');
@@ -168,7 +231,6 @@ int	ft_min(dblist *l)
 	min = l->first->val;
 	while (tmp)
 	{
-		rotate_list(l);
 		if (min > tmp->val)
 		{
 
@@ -185,99 +247,123 @@ int		is_sort(dblist *l)
 	int	prev;
 	Pile *tmp;
 
-	tmp = l->last;
+	tmp = l->first;
 	if (!tmp)
 		return (0);
 	flag = 0;
 	prev = tmp->val;
-	while (!tmp)
+	while (tmp)
 	{
 		if (!flag)
-			tmp = l->last;
+			tmp = l->first;
 		flag = 1;
 		if (tmp->val < prev)
 			return (0);
 		prev = tmp->val;
+
 		tmp = tmp->next;
 	}
-	return 0;
-}
-
-void	ft_PushList(dblist *a, dblist *b)
-{
-	int	val;
-	int tail;
-
-	tail = Count_pile(*a) / 2;
-	val = 0;
-	while (tail > 0 && b->first)
-	{
-		ft_putstr("pb");
-		val = PopFront(a);
-		PushBack(b, val);
-		tail--;
-
-	}
-	View(*a);
-	View(*b);
-}
-
-void	ft_Fusion(dblist *a, dblist *b)
-{
-	Pile *tmp;
-	Pile *tmp2;
-
-	tmp = a->first;
-	tmp2 = b->first;
-	if (!tmp)
-		exit(EXIT_FAILURE);
-	else if (!tmp2)
-		exit(EXIT_FAILURE);
-	else if ((tmp->val) <= (tmp2->val))
-	{
-		ft_putstr("pa");
-		PushFront(a, tmp->val);
-		ft_Fusion(tmp->next, b);
-		exit(EXIT_FAILURE);
-
-	}
-	else 
-	{
-		ft_putstr("pa");
-		PushFront(a, tmp2->val);
-		ft_Fusion(a, tmp2->next);
-		exit(EXIT_FAILURE);
-	}
+	return 1;
 }
 
 
-void	ft_PushSwap(dblist *a, dblist *b)
+void	lst_shift(dblist *list)
 {
-	//int	flag;https://github.com/gabtoubl/portfolio/blob/master/Algorithmie/push_swap/algo.c
-	//int	min;
+	dblist	*this;
+
+	ft_putstr("ra");
+	this = (dblist *)list;
+	if (!this->first)
+		return ;
+	//Swap(list);
+	this->first = this->first->next;
+	
+	//View(*list);
+}
+
+void	empty_list(dblist *l_a, dblist *l_b)
+{
+	Pile *tmp1;
+
+
+	tmp1 = l_b->first;
+	while (tmp1)
+	{
+		ft_putstr(" pa");
+		PushBack(l_a, tmp1->val);
+		PopFront(l_b);
+		tmp1 = tmp1->next;
+	}
+	ft_putstr("\n");
+}
+
+void	lst_pop(dblist *list)
+{
+	dblist	*this;
 	Pile	*tmp;
-	//Pile 	*tmp1;
-	//int	val;http://zanotti.univ-tln.fr/enseignement/I51/solutions/tri-fusion-liste.c
 
-	//val = 0;
-	tmp = a->first;
-	//min = ft_min(a);
-	if (tmp)
+	this = (dblist *)list;
+	if (!this->first)
+		return ;
+	if (this->first == this->first->next)
 	{
-		if (tmp->next)
-		{
-			ft_PushList(a, b);
-			ft_PushSwap(a, b);
-			//ft_Fusion(a->first, b->first);
-		}
+		free(this->first);
+		this->first = NULL;
 	}
-	View(*a);
+	else
+	{
+		tmp = this->first;
+		this->last->prev = this->first->next;
+		this->first->next = this->last->prev;
+		this->first = this->first->next;
+		free(tmp);
+	}
+}
+
+void		push_swap(dblist *l_a, dblist *l_b)
+{
+	int		flag;
+	int		min;
+
+	Pile	*tmp;
+
+	min = ft_min(l_a);
+	flag = 0;
+	while (l_a->first && !is_sort(l_a))
+	{
+		if (flag)
+			ft_putstr(" ");
+		flag = 1;
+		tmp = l_a->first;
+		if (tmp->val == min)
+		{
+			//View(*l_a);
+			ft_putstr("pb");
+			PushBack(l_b, tmp->val);
+
+			//PopFront(l_a);
+			lst_pop(l_a);
+
+		
+			
+			min = ft_min(l_a);
+		}
+		else{
+			lst_shift(l_a);
+		}
+			View(*l_a);
+	}
+	/*View(*l_b);
+		View(*l_a);*/
+
+	empty_list(l_a, l_b);
+	//View(*l_a);
 }
 
 void	Clear(dblist *l)
 {
 	Pile	*tmp;
-	Pile	*pelem; 
+	Pile	*pelem;
 
 	pelem = l->first;
 	while(pelem)
@@ -289,4 +375,3 @@ void	Clear(dblist *l)
 	l->first = NULL;
 	l->last = NULL;
 }
-

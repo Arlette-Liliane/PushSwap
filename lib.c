@@ -26,7 +26,6 @@ void	ft_putstr(char *s)
 		ft_putchar(*s);
 		s++;
 	}
-	ft_putchar('\n');
 }
 
 int	ft_isdigit(char **av, int ac)

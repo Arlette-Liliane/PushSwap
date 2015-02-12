@@ -19,7 +19,7 @@ typedef struct tcell
 	struct tcell *suiv;
 } TCELL;
 
-typedef TCELL *TLISTE; 
+typedef TCELL *TLISTE;
 
 TLISTE liste;
 
@@ -35,18 +35,18 @@ void Afficher(TLISTE liste)
 void Empiler(TLISTE *liste, telem x)
 {
 	TLISTE aux = NULL;
-  
+
 	aux = (TLISTE) malloc(sizeof(TCELL));
 	aux->elem = x;
 	aux->suiv = (*liste);
-	*liste = aux;  
+	*liste = aux;
 }
 
 TLISTE Lire(FILE * fichier)
 {
 	telem x;
 	TLISTE liste;
-  
+
 	liste = NULL;
 	while (fscanf(fichier,"%llu",&x) != EOF)
 		Empiler(&liste,x);
@@ -57,7 +57,7 @@ TLISTE Lire(FILE * fichier)
 // coupe la liste en 2 listes en prenant un terme sur deux
 TLISTE Separer(TLISTE liste)
 {TLISTE aux;
- 
+
 	if (liste == NULL)
 		return(NULL);
 	else if (liste->suiv == NULL)
@@ -67,17 +67,18 @@ TLISTE Separer(TLISTE liste)
 		aux = liste->suiv;
 		liste->suiv = aux->suiv;
 		aux->suiv=Separer(aux->suiv);
+		Afficher(liste);
 		return(aux);
 	}
 }
 
 TLISTE Fusion(TLISTE lg,TLISTE ld)
 {
-	printf("----lg-----\n");
+/*	printf("----lg-----\n");
 	Afficher(lg);
 printf("----ld-----\n");
-	Afficher(ld);
-	
+	Afficher(ld);*/
+
 	if (lg == NULL)
 		return(ld);
 	else if (ld == NULL)
@@ -98,9 +99,9 @@ printf("----ld-----\n");
 
 void Trier(TLISTE* liste)
 {TLISTE aux;
- 
+
 	if (*liste != NULL)
-		if ((*liste)->suiv != NULL) 
+		if ((*liste)->suiv != NULL)
 		{
 			aux=Separer(*liste);
 			Trier(liste);

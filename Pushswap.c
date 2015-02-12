@@ -20,12 +20,13 @@ int main(int ac, char ** av)
 {
         dblist MaListea;
         dblist MaListeb;
+    
         int it;
- 
+
         it = 1;
         Init(&MaListea);
         Init(&MaListeb);
-        
+
         if (ac > 2 && ft_isdigit(av, ac) == 1 && ft_doublons(ac, av) == 0)
         {
 			while (it < ac)
@@ -34,7 +35,12 @@ int main(int ac, char ** av)
 				PushBack(&MaListea,ft_atoi(av[it]));
 				it++;
 			}
-			ft_PushSwap(&MaListea, &MaListeb);
+      //View(MaListea);
+
+			push_swap(&MaListea, &MaListeb);
+ 
+      View(MaListea);
+     // View(MaListeb);
 			Clear(&MaListea);
 			Clear(&MaListeb);
 
@@ -53,6 +59,6 @@ int main(int ac, char ** av)
 		}
 		else
 		  ft_error("Error");
-		printf(" doublons : %d\n", ft_isdigit(av, ac));			
-        return 0;    
+		printf(" doublons : %d\n", ft_isdigit(av, ac));
+        return 0;
  }
