@@ -1,3 +1,4 @@
+
 #******************************************************************************#
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -5,55 +6,36 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aemebiku <aemebiku@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/02/09 14:19:24 by aemebiku          #+#    #+#              #
-#    Updated: 2015/02/12 19:21:45 by aemebiku         ###   ########.fr        #
+#    Created: 2015/03/05 16:58:05 by aemebiku          #+#    #+#              #
+#    Updated: 2015/03/09 13:51:34 by aemebiku         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-NAME = pushswap
+SRC	= main.c \
+	  list_linked.c \
+	  swap.c \
+	  minilib.c \
+	  disp.c  \
+	  ft_error.c \
+		ft_complet.c
 
-SOURCES =	Pushswap.c \
-			lib.c		\
-			pile.c
+NAME	= push_swap
 
-HEADERS	= -Iincludes/
+OBJ	= $(SRC:.c=.o)
 
-OBJECTS	= $(subst .c,.o,$(SOURCES))
+CC	= gcc -Wall -Wextra -Werror
 
-WFLAGS	= -Wall -Werror -Wextra
+RM	= rm -f
 
-CC		= gcc
+all:	$(NAME)
 
-.SILENT:
-
-all: $(NAME)
-
-$(NAME): $(OBJECTS)
-		$(CC) $(WFLAGS) $(OBJECTS) -o $@
-	printf "\e[32m----------------------------------\e[36m\n"
-	printf "\e[32m[✔]\e[36m $@"
-	printf "\n\e[32m----------------------------------\e[36m"
-	printf "\033[0m\n"
-
-%.o: %.c
-	$(CC) $(WFLAGS) $(HEADERS) -c -o $@ $^
-	printf "\e[32m[✔]\e[36m $@ "
-	printf "\033[0m\n"
+$(NAME):	$(OBJ)
+	$(CC) $(OBJ) -o $(NAME)
 
 clean:
-	rm -rf $(OBJECTS)
-	printf "\e[31m----------------------------------\n"
-	printf "[✔]\e[36m $(NAME): Objects deleted\n"
-	printf "\e[31m----------------------------------\e[36m"
-	printf "\033[0m\n"
+	$(RM) $(OBJ)
 
-fclean: clean
-	rm -rf $(NAME)
-	printf "\e[31m----------------------------------\n"
-	printf "[✔]\e[36m $(NAME): All deleted\n"
-	printf "\e[31m----------------------------------\e[36m"
-	printf "\033[0m\n"
+fclean:	clean
+	$(RM) $(NAME)
 
-re: fclean all
-
-.PHONY: re fclean clean all
+re:	fclean all
